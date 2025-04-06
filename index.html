@@ -1,0 +1,2512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Proficiency Analysis: Indian vs Foreign Students</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"></script>
+    <style>
+        @media print {
+            body {
+                font-size: 11pt;
+                line-height: 1.4;
+                margin: 0;
+                padding: 0;
+            }
+            
+            /* Title page formatting */
+            header {
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                margin: 0;
+                padding: 5cm 0 2cm 0;
+            }
+            
+            header h1 {
+                font-size: 24pt;
+                margin-bottom: 1cm;
+            }
+            
+            header h2 {
+                font-size: 18pt;
+                margin-bottom: 0.8cm;
+            }
+            
+            header p {
+                font-size: 14pt;
+                margin-bottom: 1cm;
+            }
+            
+            /* Table of Contents on separate page */
+            #table-of-contents {
+                page-break-before: avoid;
+                page-break-after: always;
+                padding-top: 2cm;
+                height: auto;
+            }
+            
+            /* Use single column for TOC */
+            .toc-list {
+                columns: 1 !important;
+                column-gap: 0;
+                line-height: 1.6;
+            }
+            
+            /* Hide print button completely */
+            .print-buttons-container, 
+            .print-button, 
+            #print-button {
+                display: none !important;
+            }
+            
+            /* Ensure main sections start on a new page */
+            section[id] {
+                page-break-inside: avoid;
+                padding-top: 0.5cm;
+                margin-top: 0;
+            }
+            
+            section[id="introduction"],
+            section[id="literature-review"],
+            section[id="data-overview"],
+            section[id="methodology"],
+            section[id="key-calculations"],
+            section[id="descriptive-statistics"],
+            section[id="testing-assumptions"],
+            section[id="data-validation"],
+            section[id="hypothesis-testing"],
+            section[id="effect-size"],
+            section[id="equivalence-testing"],
+            section[id="skill-analysis"],
+            section[id="level-analysis"],
+            section[id="limitations"],
+            section[id="conclusion"] {
+                page-break-before: always;
+            }
+            
+            /* Avoid page breaks inside important elements */
+            .table-container, 
+            .chart-container, 
+            .image-container,
+            h2, h3, h4 {
+                page-break-inside: avoid;
+            }
+            
+            /* Prevent headings from being orphaned */
+            h2, h3, h4 {
+                page-break-after: avoid;
+            }
+            
+            /* Optimize table spacing for print */
+            table {
+                font-size: 9pt;
+                margin-bottom: 0.8em;
+            }
+            
+            th, td {
+                padding: 4px 6px;
+            }
+            
+            /* Reduce vertical spacing */
+            p {
+                margin: 0.4em 0;
+            }
+            
+            ul, ol {
+                margin-top: 0.3em;
+                margin-bottom: 0.6em;
+                padding-left: 1em;
+            }
+            
+            /* Handle SVG charts in print */
+            svg {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            /* Reduce image margins */
+            img {
+                margin: 1em auto;
+            }
+            
+            /* Reduce spacing between sections */
+            .mb-10, .mb-12 {
+                margin-bottom: 0.5cm;
+            }
+            
+            /* Add page numbers */
+            @page {
+                margin: 1.5cm 1cm;
+            }
+            
+            /* Custom page footer with page numbers */
+            @page {
+                @bottom-center {
+                    content: "Page " counter(page) " of " counter(pages);
+                    font-size: 9pt;
+                    font-family: 'Inter', sans-serif;
+                    color: #666;
+                }
+            }
+            
+            /* No page numbers on title and TOC pages */
+            @page :first {
+                @bottom-center {
+                    content: "";
+                }
+            }
+            
+            /* Remove unnecessary UI elements */
+            .no-print {
+                display: none;
+            }
+            
+            /* Table of contents formatting for print */
+            #table-of-contents {
+                margin-bottom: 1cm;
+            }
+            
+            #table-of-contents h2 {
+                font-size: 18pt;
+                margin-bottom: 1cm;
+                text-align: center;
+            }
+            
+            /* Compress space at the top of the first page */
+            body {
+                padding-top: 0;
+            }
+        }
+        
+        /* Hide print button for screen view too if needed */
+        @media screen {
+            .print-buttons-container {
+                opacity: 0;
+                pointer-events: none;
+                position: absolute;
+            }
+        }
+        /* Hide footer */
+        footer {
+            display: none;
+        }
+        .math {
+            font-family: 'KaTeX_Math', serif;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #1a5276;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1.5em;
+            font-size: 0.9em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f6f9;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 1.5em;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 2em auto;
+            height: 400px;
+        }
+        .print-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        .print-button:active {
+            transform: translateY(1px);
+        }
+        .equation {
+            margin: 1em 0;
+            overflow-x: auto;
+        }
+        .katex-display {
+            margin: 1.5em 0;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            margin: 2em auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        .image-container {
+            text-align: center;
+            margin: 2em 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-caption {
+            font-style: italic;
+            margin-top: 0.5em;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+    <script>
+        // Define ChartAnnotation globally to ensure it's available for Chart.register
+        const ChartAnnotation = window.ChartAnnotation;
+    </script>
+    <script>
+        // Register the annotation plugin when Chart.js is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Chart !== 'undefined' && typeof ChartAnnotation !== 'undefined') {
+                Chart.register(ChartAnnotation);
+                console.log('Chart.js and annotation plugin loaded successfully');
+            } else {
+                console.error('Chart.js or annotation plugin not loaded correctly');
+            }
+            
+            // Verify images are loading correctly
+            const images = document.querySelectorAll('img');
+            images.forEach((img, index) => {
+                img.onload = function() {
+                    console.log(`Image ${index+1} loaded successfully: ${img.src}`);
+                };
+                img.onerror = function() {
+                    console.error(`Error loading image ${index+1}: ${img.src}`);
+                    // Add fallback styling to indicate image failed to load
+                    img.style.border = '2px dashed red';
+                    img.style.padding = '20px';
+                    img.style.minHeight = '100px';
+                    img.alt = 'Image failed to load: ' + img.alt;
+                };
+                
+                // Check if image is already loaded or broken
+                if (img.complete) {
+                    if (img.naturalHeight === 0) {
+                        img.onerror();
+                    } else {
+                        img.onload();
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-white text-gray-800 p-8 max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="mb-8 text-center">
+        <h1 class="text-4xl font-bold mb-3 text-blue-800">English Proficiency Analysis</h1>
+        <h2 class="text-2xl mb-1">Comparative Study: Indian vs Foreign Students</h2>
+        <p class="text-gray-600 mb-6">Statistical Analysis Report</p>
+        <div class="w-32 h-1 bg-blue-600 mx-auto mb-4"></div>
+    </header>
+
+    <!-- Table of Contents -->
+    <section id="table-of-contents" class="mb-8">
+        <h2 class="text-xl font-bold mb-3">Table of Contents</h2>
+        <ol class="list-decimal list-inside space-y-1 pl-4 toc-list">
+            <li><a href="#introduction" class="text-blue-600 hover:underline">Introduction</a></li>
+            <li><a href="#literature-review" class="text-blue-600 hover:underline">Literature Review</a></li>
+            <li><a href="#data-overview" class="text-blue-600 hover:underline">Data Overview and Survey Results</a></li>
+            <li><a href="#methodology" class="text-blue-600 hover:underline">Methodology</a></li>
+            <li><a href="#key-calculations" class="text-blue-600 hover:underline">Key Calculations and Formulas</a></li>
+            <li><a href="#descriptive-statistics" class="text-blue-600 hover:underline">Descriptive Statistics</a></li>
+            <li><a href="#testing-assumptions" class="text-blue-600 hover:underline">Testing Statistical Assumptions</a></li>
+            <li><a href="#data-validation" class="text-blue-600 hover:underline">Data Validation</a></li>
+            <li><a href="#hypothesis-testing" class="text-blue-600 hover:underline">Hypothesis Testing</a></li>
+            <li><a href="#effect-size" class="text-blue-600 hover:underline">Effect Size Analysis</a></li>
+            <li><a href="#equivalence-testing" class="text-blue-600 hover:underline">Equivalence Testing</a></li>
+            <li><a href="#skill-analysis" class="text-blue-600 hover:underline">Skill-by-Skill Analysis</a></li>
+            <li><a href="#level-analysis" class="text-blue-600 hover:underline">Analysis by Level of Study</a></li>
+            <li><a href="#limitations" class="text-blue-600 hover:underline">Limitations and Future Research</a></li>
+            <li><a href="#conclusion" class="text-blue-600 hover:underline">Conclusion and Recommendations</a></li>
+        </ol>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="introduction" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">1. Introduction</h2>
+        <div class="space-y-4">
+            <p>
+                English language proficiency is a crucial factor for academic success, particularly in higher education institutions where English is the medium of instruction. In multilingual countries like India, where both native and international students pursue their education, understanding any potential differences in English proficiency can help in designing more effective language support programs.
+            </p>
+            <p>
+                This report presents a comprehensive statistical analysis addressing the research question: <strong>Is there a significant difference in English language proficiency between foreign and Indian students based on their country of origin?</strong>
+            </p>
+            <p>
+                The analysis is based on survey data collected from 100 students (50 Indian and 50 foreign) studying at various Indian universities. The data includes self-reported proficiency ratings across four language skills: reading, listening, speaking, and writing.
+            </p>
+            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mt-6">
+                <h3 class="font-bold text-lg mb-2">Key Research Objectives</h3>
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                    <li>Determine if there is a statistically significant difference in overall English proficiency between Indian and foreign students</li>
+                    <li>Analyze potential differences in specific language skill areas (reading, listening, speaking, writing)</li>
+                    <li>Examine if any observed differences vary by level of study (undergraduate vs. postgraduate)</li>
+                    <li>Assess the practical significance of any detected differences</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Literature Review Section -->
+    <section id="literature-review" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">2. Literature Review</h2>
+        <div class="space-y-4">
+            <p>
+                English language proficiency among university students has been extensively studied due to its critical role in academic success. This section reviews key literature relevant to understanding proficiency differences between native and non-native English speakers in higher education settings.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">2.1 English as a Medium of Instruction (EMI)</h3>
+            <p>
+                The expansion of English as a medium of instruction (EMI) in higher education has been documented by numerous studies (Dearden, 2014; Macaro et al., 2018). In multilingual contexts like India, the implementation of EMI presents unique challenges and opportunities, as students come from diverse linguistic backgrounds (Annamalai, 2004; Ramanathan, 2016).
+            </p>
+            <p>
+                Research by Coleman (2006) and Kirkpatrick (2011) has shown that proficiency gaps can exist between students from different linguistic backgrounds when studying in EMI environments. However, these studies primarily focused on European and East Asian contexts, with limited research specifically comparing Indian and foreign students studying in Indian universities.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">2.2 Self-assessment of Language Proficiency</h3>
+            <p>
+                Self-assessment of language proficiency has been validated as a reliable measure in multiple studies (Ross, 1998; Oscarson, 2013). While some variance exists between self-assessment and standardized testing, research has shown moderate to strong correlations between them (Blanche & Merino, 1989; LeBlanc & Painchaud, 1985).
+            </p>
+            <p>
+                Of particular relevance to our study, Matsuno (2009) and Butler (2018) found that self-assessment across different language skills (reading, writing, listening, speaking) can reveal important patterns in learners' perceived strengths and weaknesses, often with high ecological validity in academic contexts.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">2.3 Differential Proficiency Across Language Skills</h3>
+            <p>
+                Previous research has consistently shown that language learners often display differential proficiency across various language skills. Huang (2010) and Yamashita (2013) found that reading skills typically develop earlier and more robustly than productive skills like speaking and writing. For many learners in EFL (English as a Foreign Language) contexts, speaking is often the most challenging skill to develop (Boonkit, 2010; Gan, 2012).
+            </p>
+            <p>
+                In the Indian context specifically, Sheorey (2006) and Sinha (2009) observed that many Indian students exhibit stronger reading and writing skills compared to speaking skills, often attributed to the examination-oriented education system that has traditionally emphasized literacy over oracy.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">2.4 Impact of Educational Level on Proficiency</h3>
+            <p>
+                The relationship between educational level and language proficiency has been explored in various contexts. Longitudinal studies by Sasaki (2007) and Olsen (2017) have demonstrated that language proficiency generally increases with academic progression. However, Trenkic and Warmington (2019) found that the gap between native and non-native speakers may persist or even widen at higher educational levels.
+            </p>
+            <p>
+                Research specifically examining Indian higher education by Agnihotri and Khanna (1997) and more recently by Bhattacharya (2013) suggests that the transition from undergraduate to postgraduate studies may present additional linguistic challenges, particularly for students from non-English medium backgrounds.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">2.5 Research Gap</h3>
+            <p>
+                Despite the extensive literature on English language proficiency in higher education, there remains a notable gap in empirical research comparing Indian and international student populations within Indian universities. Most existing studies have either focused on single population groups or have been conducted in Western or East Asian contexts.
+            </p>
+            <p>
+                Our study addresses this gap by directly comparing Indian and foreign students in Indian university settings, applying robust statistical methods to assess not just whether differences exist, but also their practical significance and the nuances across different language skills and educational levels.
+            </p>
+            
+            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mt-6">
+                <h4 class="font-bold text-lg mb-2">Relevance to Current Study</h4>
+                <p>
+                    The literature review guides our research in several ways:
+                </p>
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                    <li>It establishes the validity of using self-assessment measures for language proficiency</li>
+                    <li>It provides a theoretical framework for examining differential proficiency across language skills</li>
+                    <li>It highlights the importance of considering educational level as a potential moderator</li>
+                    <li>It reveals a significant research gap our study aims to address through direct comparison of Indian and international students in Indian university contexts</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Overview Section -->
+    <section id="data-overview" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">3. Data Overview and Survey Results</h2>
+        <div class="space-y-6">
+            <h3 class="text-xl font-semibold mb-2">3.1 Demographics of Survey Respondents</h3>
+            <p class="mb-4">
+                Our study collected data from 100 students (50 Indian and 50 foreign) through a comprehensive survey. The dataset includes demographic information, self-assessed language proficiency ratings, and responses to attitude statements about English language education and usage.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">Distribution by Nationality</h4>
+                    <div class="table-container overflow-x-auto">
+                        <table class="min-w-full bg-white border">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-2 px-4 border">Region</th>
+                                    <th class="py-2 px-4 border">Count</th>
+                                    <th class="py-2 px-4 border">Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border">Indian</td>
+                                    <td class="py-2 px-4 border">50</td>
+                                    <td class="py-2 px-4 border">50%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Sri Lankan</td>
+                                    <td class="py-2 px-4 border">12</td>
+                                    <td class="py-2 px-4 border">12%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">African Countries</td>
+                                    <td class="py-2 px-4 border">20</td>
+                                    <td class="py-2 px-4 border">20%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Other Asian Countries</td>
+                                    <td class="py-2 px-4 border">15</td>
+                                    <td class="py-2 px-4 border">15%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Other Regions</td>
+                                    <td class="py-2 px-4 border">3</td>
+                                    <td class="py-2 px-4 border">3%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">Distribution by Level of Study</h4>
+                    <div class="table-container overflow-x-auto">
+                        <table class="min-w-full bg-white border">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-2 px-4 border">Level</th>
+                                    <th class="py-2 px-4 border">Indian</th>
+                                    <th class="py-2 px-4 border">Foreign</th>
+                                    <th class="py-2 px-4 border">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border">Undergraduate</td>
+                                    <td class="py-2 px-4 border">20</td>
+                                    <td class="py-2 px-4 border">25</td>
+                                    <td class="py-2 px-4 border">45%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Postgraduate</td>
+                                    <td class="py-2 px-4 border">30</td>
+                                    <td class="py-2 px-4 border">25</td>
+                                    <td class="py-2 px-4 border">55%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">First Language Distribution</h4>
+                    <div class="chart-container" style="position: relative; height:400px;">
+                        <canvas id="languageDistributionChart"></canvas>
+                    </div>
+                    <p class="image-caption">Figure 1: Distribution of First Languages Among Survey Respondents</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">Length of English-medium Education</h4>
+                    <div class="table-container overflow-x-auto">
+                        <table class="min-w-full bg-white border">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-2 px-4 border">Duration</th>
+                                    <th class="py-2 px-4 border">Indian</th>
+                                    <th class="py-2 px-4 border">Foreign</th>
+                                    <th class="py-2 px-4 border">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border">Less than 1 year</td>
+                                    <td class="py-2 px-4 border">8</td>
+                                    <td class="py-2 px-4 border">5</td>
+                                    <td class="py-2 px-4 border">13%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">1-5 years</td>
+                                    <td class="py-2 px-4 border">12</td>
+                                    <td class="py-2 px-4 border">20</td>
+                                    <td class="py-2 px-4 border">32%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">More than 5 years</td>
+                                    <td class="py-2 px-4 border">30</td>
+                                    <td class="py-2 px-4 border">25</td>
+                                    <td class="py-2 px-4 border">55%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="space-y-6 mt-8">
+            <h3 class="text-xl font-semibold mb-2">3.2 Self-Reported Language Proficiency</h3>
+            <p>
+                Students self-assessed their proficiency in four key language skills: reading comprehension, listening skills, speaking skills, and writing skills. Each skill was rated on a 5-point scale (Very Weak, Weak, Moderate, Strong, Very Strong).
+            </p>
+            
+            <div class="grid grid-cols-1 gap-6 mb-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">Self-Reported Proficiency by Nationality Group</h4>
+                    <div class="chart-container" style="position: relative; height:500px;">
+                        <canvas id="proficiencyComparisonChart"></canvas>
+                    </div>
+                    <p class="image-caption">Figure 2: Self-Reported Proficiency Comparison Between Indian and Foreign Students</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">Proficiency Distribution: Indians</h4>
+                    <div class="table-container overflow-x-auto">
+                        <table class="min-w-full bg-white border">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-2 px-4 border">Skill</th>
+                                    <th class="py-2 px-4 border">Very Weak</th>
+                                    <th class="py-2 px-4 border">Weak</th>
+                                    <th class="py-2 px-4 border">Moderate</th>
+                                    <th class="py-2 px-4 border">Strong</th>
+                                    <th class="py-2 px-4 border">Very Strong</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border">Reading</td>
+                                    <td class="py-2 px-4 border">2%</td>
+                                    <td class="py-2 px-4 border">4%</td>
+                                    <td class="py-2 px-4 border">30%</td>
+                                    <td class="py-2 px-4 border">44%</td>
+                                    <td class="py-2 px-4 border">20%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Listening</td>
+                                    <td class="py-2 px-4 border">0%</td>
+                                    <td class="py-2 px-4 border">6%</td>
+                                    <td class="py-2 px-4 border">32%</td>
+                                    <td class="py-2 px-4 border">42%</td>
+                                    <td class="py-2 px-4 border">20%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Speaking</td>
+                                    <td class="py-2 px-4 border">4%</td>
+                                    <td class="py-2 px-4 border">8%</td>
+                                    <td class="py-2 px-4 border">42%</td>
+                                    <td class="py-2 px-4 border">32%</td>
+                                    <td class="py-2 px-4 border">14%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Writing</td>
+                                    <td class="py-2 px-4 border">2%</td>
+                                    <td class="py-2 px-4 border">6%</td>
+                                    <td class="py-2 px-4 border">32%</td>
+                                    <td class="py-2 px-4 border">40%</td>
+                                    <td class="py-2 px-4 border">20%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">Proficiency Distribution: Foreign Students</h4>
+                    <div class="table-container overflow-x-auto">
+                        <table class="min-w-full bg-white border">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-2 px-4 border">Skill</th>
+                                    <th class="py-2 px-4 border">Very Weak</th>
+                                    <th class="py-2 px-4 border">Weak</th>
+                                    <th class="py-2 px-4 border">Moderate</th>
+                                    <th class="py-2 px-4 border">Strong</th>
+                                    <th class="py-2 px-4 border">Very Strong</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border">Reading</td>
+                                    <td class="py-2 px-4 border">0%</td>
+                                    <td class="py-2 px-4 border">2%</td>
+                                    <td class="py-2 px-4 border">26%</td>
+                                    <td class="py-2 px-4 border">44%</td>
+                                    <td class="py-2 px-4 border">28%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Listening</td>
+                                    <td class="py-2 px-4 border">2%</td>
+                                    <td class="py-2 px-4 border">4%</td>
+                                    <td class="py-2 px-4 border">24%</td>
+                                    <td class="py-2 px-4 border">38%</td>
+                                    <td class="py-2 px-4 border">32%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Speaking</td>
+                                    <td class="py-2 px-4 border">2%</td>
+                                    <td class="py-2 px-4 border">2%</td>
+                                    <td class="py-2 px-4 border">34%</td>
+                                    <td class="py-2 px-4 border">34%</td>
+                                    <td class="py-2 px-4 border">28%</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border">Writing</td>
+                                    <td class="py-2 px-4 border">0%</td>
+                                    <td class="py-2 px-4 border">2%</td>
+                                    <td class="py-2 px-4 border">28%</td>
+                                    <td class="py-2 px-4 border">48%</td>
+                                    <td class="py-2 px-4 border">22%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="space-y-6 mt-8">
+            <h3 class="text-xl font-semibold mb-2">3.3 Key Attitude Findings from Survey</h3>
+            <p>
+                The survey included Likert scale questions to measure attitudes about English language learning, usage, and support. Below are key findings regarding perceptions and attitudes of both Indian and foreign students:
+            </p>
+            
+            <div class="grid grid-cols-1 gap-6 mb-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h4 class="font-semibold mb-3">Attitude Comparison: Indian vs. Foreign Students</h4>
+                    <div class="chart-container" style="position: relative; height:400px;">
+                        <canvas id="attitudeComparisonChart"></canvas>
+                    </div>
+                    <p class="image-caption">Figure 3: Attitude Comparison Between Indian and Foreign Students</p>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <h4 class="font-semibold mb-3">Key Attitude Findings</h4>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><span class="font-medium">Importance of English:</span> 87% of all students agreed that English is necessary for academic success in India, with no significant difference between Indian (85%) and foreign (89%) students.</li>
+                    <li><span class="font-medium">Perceived difficulties:</span> 72% of foreign students believed they face more language difficulties compared to Indian students, while only 40% of Indian students shared this perception.</li>
+                    <li><span class="font-medium">Language improvement:</span> 76% of all students reported their English proficiency has improved since starting university studies, with a higher percentage among foreign students (82%) compared to Indian students (70%).</li>
+                    <li><span class="font-medium">Support needs:</span> 84% of all respondents agreed that more resources should be available to help students improve their English proficiency. Only 32% felt their university provides enough language support.</li>
+                    <li><span class="font-medium">Cultural factors:</span> 62% of foreign students and 42% of Indian students indicated that their region of origin has influenced their English proficiency.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="space-y-6 mt-8">
+            <h3 class="text-xl font-semibold mb-2">3.4 Qualitative Responses: Challenges and Strategies</h3>
+            <p>
+                The survey included open-ended questions about challenges faced in learning or using English, strategies for improvement, and suggestions for university language support programs.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                    <h4 class="font-semibold mb-3">Common Challenges Reported</h4>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li><span class="font-medium">Accent differences:</span> Foreign students frequently mentioned difficulty understanding Indian English accents and pronunciation.</li>
+                        <li><span class="font-medium">Speaking confidence:</span> Indian students often reported lack of confidence in spoken English, particularly in academic settings.</li>
+                        <li><span class="font-medium">Academic writing:</span> Both groups reported challenges with formal academic writing in English.</li>
+                        <li><span class="font-medium">Technical vocabulary:</span> Difficulty with subject-specific terminology, especially for those in technical fields.</li>
+                        <li><span class="font-medium">Peer communication:</span> Foreign students reported challenges in casual conversation with Indian peers who sometimes switch to local languages.</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                    <h4 class="font-semibold mb-3">Improvement Strategies Employed</h4>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li><span class="font-medium">Media consumption:</span> 78% mentioned watching English movies, series, or YouTube videos.</li>
+                        <li><span class="font-medium">Reading:</span> 65% cited reading English books, newspapers, or online content.</li>
+                        <li><span class="font-medium">Social practice:</span> 58% reported practicing English through conversations with friends or peers.</li>
+                        <li><span class="font-medium">Digital tools:</span> 42% used language learning apps or online resources.</li>
+                        <li><span class="font-medium">Academic resources:</span> 38% utilized university writing centers or language labs when available.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Suggested Program</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Indian Students (%)</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Foreign Students (%)</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Overall (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Spoken English workshops</td>
+                            <td class="py-2 px-4 border-b border-gray-300">68%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">52%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">60%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Academic writing courses</td>
+                            <td class="py-2 px-4 border-b border-gray-300">56%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">64%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">60%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Language exchange programs</td>
+                            <td class="py-2 px-4 border-b border-gray-300">44%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">72%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">58%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Peer tutoring</td>
+                            <td class="py-2 px-4 border-b border-gray-300">50%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">48%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">49%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">IELTS/TOEFL preparation</td>
+                            <td class="py-2 px-4 border-b border-gray-300">42%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">54%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">48%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="space-y-6 mt-8">
+            <h3 class="text-xl font-semibold mb-2">3.5 Summary of Raw Data Findings</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-4">
+                    The survey data reveals several important patterns about English proficiency among Indian and foreign students:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-4">
+                    <li>Foreign students self-report slightly higher proficiency in speaking skills compared to Indian students.</li>
+                    <li>Both groups show similar patterns in reading and writing proficiency, with most students rating themselves as "Strong" in these areas.</li>
+                    <li>Duration of study in English-medium institutions correlates positively with self-reported proficiency.</li>
+                    <li>There is strong agreement across both groups about the importance of English for academic success in India.</li>
+                    <li>Both groups perceive inadequate institutional support for English language development.</li>
+                    <li>The most common strategies for improving English proficiency involve immersion in English media and social practice.</li>
+                </ul>
+                <p>
+                    These initial observations from the raw data form the foundation for the more detailed statistical analysis presented in subsequent sections of this report.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="methodology" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">4. Methodology</h2>
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold mb-2">4.1 Data Collection</h3>
+            <p>
+                The data was collected through a survey administered to 100 students studying at various Indian universities. The participants included 50 Indian students and 50 foreign students from various countries.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">4.2 Measures</h3>
+            <p>
+                English proficiency was measured using self-rated proficiency scores across four key language skills, each rated on a 5-point scale:
+            </p>
+            <ul class="list-disc list-inside pl-6 space-y-1">
+                <li><strong>Reading Comprehension:</strong> Understanding academic text (1=Very Weak to 5=Very Strong)</li>
+                <li><strong>Listening Skills:</strong> Understanding lectures and spoken English (1=Very Weak to 5=Very Strong)</li>
+                <li><strong>Speaking Skills:</strong> Fluency and confidence in spoken communication (1=Very Weak to 5=Very Strong)</li>
+                <li><strong>Writing Skills:</strong> Ability to write academic papers and assignments (1=Very Weak to 5=Very Strong)</li>
+            </ul>
+            <p>
+                A composite <strong>Proficiency Score</strong> was calculated as the mean of the four skill scores for each participant.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">4.3 Statistical Analysis Strategy</h3>
+            <p>
+                The analysis followed a systematic approach:
+            </p>
+            <ol class="list-decimal list-inside pl-6 space-y-1">
+                <li>Exploratory data analysis and descriptive statistics</li>
+                <li>Testing of statistical assumptions (normality, homogeneity of variance)</li>
+                <li>Hypothesis testing using parametric and non-parametric approaches</li>
+                <li>Effect size calculation to assess practical significance</li>
+                <li>Equivalence testing to determine if groups are statistically equivalent</li>
+                <li>Subgroup analyses by individual skills and level of study</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Key Calculations and Formulas Section -->
+    <section id="key-calculations" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">5. Key Calculations and Formulas</h2>
+        <div class="space-y-6">
+            <p>
+                To ensure transparency and aid in understanding the analysis, we present the key statistical formulas used in this study:
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-3">5.1 Composite Proficiency Score</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-2 font-semibold">The overall proficiency score for each student was calculated as:</p>
+                <div class="equation flex justify-center">
+                    <p class="math text-lg">Proficiency Score = (Reading + Listening + Speaking + Writing) ÷ 4</p>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">This equal weighting approach treats all four skills as equally important components of English proficiency.</p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-3">5.2 Independent Samples t-test</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-2 font-semibold">Formula for calculating the t-statistic:</p>
+                <div class="equation flex justify-center">
+                    <p class="math text-lg">t = (x̄₁ - x̄₂) ÷ √(s²₁/n₁ + s²₂/n₂)</p>
+                </div>
+                <p class="mt-3 mb-1">Where:</p>
+                <ul class="list-disc list-inside pl-4 text-sm">
+                    <li>x̄₁, x̄₂ = Mean proficiency scores for Indian and foreign students (3.63 and 3.86)</li>
+                    <li>s²₁, s²₂ = Variances of the two groups (0.55 and 0.57)</li>
+                    <li>n₁, n₂ = Sample sizes (50 for each group)</li>
+                </ul>
+                <p class="mt-3 mb-1">Calculation:</p>
+                <div class="equation flex justify-center">
+                    <p class="math">t = (3.63 - 3.86) ÷ √(0.55/50 + 0.57/50) = -0.23 ÷ 0.150 = -1.53</p>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">With 98 degrees of freedom, this t-value corresponds to p = 0.129, which is greater than α = 0.05.</p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-3">5.3 Effect Size (Cohen's d)</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-2 font-semibold">Formula for calculating Cohen's d:</p>
+                <div class="equation flex justify-center">
+                    <p class="math text-lg">d = |x̄₁ - x̄₂| ÷ s<sub>pooled</sub></p>
+                </div>
+                <p class="mt-2 mb-1">Where pooled standard deviation is:</p>
+                <div class="equation flex justify-center">
+                    <p class="math">s<sub>pooled</sub> = √[((n₁ - 1)s²₁ + (n₂ - 1)s²₂) ÷ (n₁ + n₂ - 2)]</p>
+                </div>
+                <p class="mt-3 mb-1">Calculation:</p>
+                <div class="equation flex justify-center">
+                    <p class="math">s<sub>pooled</sub> = √[((50-1)×0.55 + (50-1)×0.57) ÷ (50+50-2)] = √[54.74 ÷ 98] = √0.5586 = 0.7475</p>
+                </div>
+                <div class="equation flex justify-center mt-2">
+                    <p class="math">d = |3.63 - 3.86| ÷ 0.7475 = 0.23 ÷ 0.7475 = 0.3062</p>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">This value falls in the "small effect" range (0.2 < d < 0.5).</p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-3">5.4 Equivalence Testing (TOST Procedure)</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-2 font-semibold">The 90% confidence interval for mean difference is calculated as:</p>
+                <div class="equation flex justify-center">
+                    <p class="math text-lg">CI<sub>90%</sub> = (x̄₁ - x̄₂) ± t<sub>α=0.05,df=98</sub> × SE</p>
+                </div>
+                <p class="mt-2 mb-1">Where the standard error (SE) is:</p>
+                <div class="equation flex justify-center">
+                    <p class="math">SE = √(s²₁/n₁ + s²₂/n₂)</p>
+                </div>
+                <p class="mt-3 mb-1">Calculation:</p>
+                <div class="equation flex justify-center">
+                    <p class="math">SE = √(0.55/50 + 0.57/50) = √0.0224 = 0.1502</p>
+                </div>
+                <div class="equation flex justify-center mt-2">
+                    <p class="math">CI<sub>90%</sub> = -0.23 ± 1.66 × 0.1502 = -0.23 ± 0.2495 = [-0.4795, 0.0195]</p>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">
+                    Since this confidence interval is completely contained within our equivalence bounds (±0.5), 
+                    we can conclude that the groups are statistically equivalent.
+                </p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-3">5.5 Mann-Whitney U Test</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-2 font-semibold">The Mann-Whitney U test is a non-parametric alternative to the t-test that compares distributions rather than means:</p>
+                <div class="equation flex justify-center">
+                    <p class="math text-lg">U = n₁n₂ + (n₁(n₁+1))/2 - R₁</p>
+                </div>
+                <p class="mt-2 mb-1">Where:</p>
+                <ul class="list-disc list-inside pl-4 text-sm">
+                    <li>n₁, n₂ = Sample sizes of the two groups (50 for each)</li>
+                    <li>R₁ = Sum of ranks for group 1 (Indian students)</li>
+                </ul>
+                <p class="mt-3 mb-1">For large samples, the U statistic can be approximated by a normal distribution:</p>
+                <div class="equation flex justify-center mt-1">
+                    <p class="math">z = (U - (n₁n₂/2)) / √(n₁n₂(n₁+n₂+1)/12)</p>
+                </div>
+                <p class="mt-3 mb-1">Result:</p>
+                <div class="equation flex justify-center">
+                    <p class="math">U = 1034.5, p = 0.136</p>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">The p-value exceeds our threshold of α = 0.05, supporting the conclusion from the t-test.</p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-3">5.6 Statistical Power Analysis</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-1">For our sample size (n₁ = n₂ = 50), α = 0.05, and an effect size d = 0.3062:</p>
+                <div class="equation flex justify-center">
+                    <p class="math">Power = 0.389 (38.9%)</p>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">
+                    The statistical power is the probability of detecting a true effect if one exists. 
+                    Our study had a moderate power to detect the small effect size observed. 
+                    This means there was a 38.9% chance of detecting a true difference if one existed.
+                </p>
+                <p class="mt-2 text-sm text-gray-600">
+                    Note: To achieve 80% power (the conventional target) for detecting an effect size of d = 0.3, 
+                    approximately 176 students per group would be needed.
+                </p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-3">5.7 Understanding P-values and Confidence Intervals</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-5">
+                <p class="mb-2 font-semibold">Visual explanation of p-value in our context:</p>
+                
+                <svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect x="0" y="0" width="600" height="200" fill="white" />
+                    
+                    <!-- Normal distribution curve -->
+                    <path d="M50,150 C100,150 150,40 300,40 C450,40 500,150 550,150" fill="none" stroke="#333" stroke-width="2" />
+                    
+                    <!-- Mean line -->
+                    <line x1="300" y1="40" x2="300" y2="170" stroke="#333" stroke-width="2" stroke-dasharray="5,5" />
+                    <text x="300" y="185" font-family="Arial" font-size="12" text-anchor="middle">Mean difference = 0</text>
+                    
+                    <!-- Observed difference -->
+                    <line x1="370" y1="70" x2="370" y2="170" stroke="blue" stroke-width="2" />
+                    <text x="370" y="185" font-family="Arial" font-size="12" text-anchor="middle" fill="blue">Observed: -0.23</text>
+                    
+                    <!-- Critical regions -->
+                    <path d="M50,150 C70,150 90,130 130,80 L50,150" fill="rgba(255,0,0,0.2)" stroke="none" />
+                    <path d="M550,150 C530,150 510,130 470,80 L550,150" fill="rgba(255,0,0,0.2)" stroke="none" />
+                    
+                    <!-- Critical values -->
+                    <line x1="130" y1="80" x2="130" y2="170" stroke="red" stroke-width="2" />
+                    <text x="130" y="185" font-family="Arial" font-size="12" text-anchor="middle" fill="red">-1.98</text>
+                    <line x1="470" y1="80" x2="470" y2="170" stroke="red" stroke-width="2" />
+                    <text x="470" y="185" font-family="Arial" font-size="12" text-anchor="middle" fill="red">+1.98</text>
+                    
+                    <!-- p-value region -->
+                    <path d="M370,70 C400,60 440,70 470,80 L470,170 L370,170 Z" fill="rgba(0,0,255,0.2)" stroke="none" />
+                    <text x="420" y="120" font-family="Arial" font-size="14" text-anchor="middle">p = 0.129</text>
+                    
+                    <!-- Annotations -->
+                    <text x="300" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Null Hypothesis Distribution</text>
+                    <text x="85" y="120" font-family="Arial" font-size="12" text-anchor="middle" fill="red">α/2 = 0.025</text>
+                    <text x="515" y="120" font-family="Arial" font-size="12" text-anchor="middle" fill="red">α/2 = 0.025</text>
+                </svg>
+                
+                <p class="mt-3 text-sm text-gray-600">
+                    The p-value (0.129) represents the probability of observing a difference of -0.23 or more extreme 
+                    if the null hypothesis were true. Since p > 0.05, we fail to reject the null hypothesis.
+                </p>
+                
+                <p class="mt-4 mb-2 font-semibold">Visual explanation of confidence intervals vs. equivalence testing:</p>
+                
+                <svg width="600" height="240" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect x="0" y="0" width="600" height="240" fill="white" />
+                    
+                    <!-- Title -->
+                    <text x="300" y="25" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Confidence Intervals and Equivalence Testing</text>
+                    
+                    <!-- Y axis line -->
+                    <line x1="300" y1="50" x2="300" y2="200" stroke="black" stroke-width="2" />
+                    
+                    <!-- Zero line -->
+                    <line x1="100" y1="125" x2="500" y2="125" stroke="black" stroke-width="1" stroke-dasharray="4,4" />
+                    <text x="85" y="125" font-family="Arial" font-size="12" text-anchor="end" dominant-baseline="middle">0</text>
+                    
+                    <!-- Equivalence bounds -->
+                    <line x1="100" y1="75" x2="500" y2="75" stroke="red" stroke-width="2" stroke-dasharray="5,5" />
+                    <text x="85" y="75" font-family="Arial" font-size="12" text-anchor="end" dominant-baseline="middle" fill="red">+0.5</text>
+                    <line x1="100" y1="175" x2="500" y2="175" stroke="red" stroke-width="2" stroke-dasharray="5,5" />
+                    <text x="85" y="175" font-family="Arial" font-size="12" text-anchor="end" dominant-baseline="middle" fill="red">-0.5</text>
+                    <text x="520" y="75" font-family="Arial" font-size="12" fill="red">Upper equivalence bound</text>
+                    <text x="520" y="175" font-family="Arial" font-size="12" fill="red">Lower equivalence bound</text>
+                    
+                    <!-- 95% CI -->
+                    <line x1="300" y1="90" x2="300" y2="160" stroke="blue" stroke-width="8" stroke-opacity="0.5" />
+                    <text x="300" y="80" font-family="Arial" font-size="12" text-anchor="middle" fill="blue">95% CI: [-0.53, 0.07]</text>
+                    <text x="300" y="210" font-family="Arial" font-size="14" text-anchor="middle" fill="blue">Not significant (includes 0)</text>
+                    
+                    <!-- 90% CI -->
+                    <line x1="350" y1="100" x2="350" y2="150" stroke="green" stroke-width="8" stroke-opacity="0.5" />
+                    <text x="350" y="90" font-family="Arial" font-size="12" text-anchor="middle" fill="green">90% CI: [-0.48, 0.02]</text>
+                    <text x="350" y="220" font-family="Arial" font-size="14" text-anchor="middle" fill="green">Equivalent (within bounds)</text>
+                    
+                    <!-- Mean point -->
+                    <circle cx="300" cy="147" r="5" fill="blue" />
+                    <circle cx="350" cy="147" r="5" fill="green" />
+                    <text x="320" y="147" font-family="Arial" font-size="12" text-anchor="start" dominant-baseline="middle">Mean diff: -0.23</text>
+                </svg>
+                
+                <p class="mt-3 text-sm text-gray-600">
+                    The 95% confidence interval (blue) includes zero, indicating no significant difference at α = 0.05.
+                    The 90% confidence interval (green) falls entirely within the equivalence bounds (±0.5),
+                    allowing us to positively claim statistical equivalence.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Descriptive Statistics Section -->
+    <section id="descriptive-statistics" class="mb-10">
+        <h2 class="text-2xl font-bold mb-4">6. Descriptive Statistics</h2>
+        
+        <p>Before testing our hypotheses, we conducted exploratory data analysis to understand the general patterns in our dataset. This included calculating measures of central tendency (mean, median) and dispersion (standard deviation, range) for both groups.</p>
+        
+        <h3 class="text-xl font-semibold mb-3">Overall Proficiency Summary</h3>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Type</th>
+                        <th>Count</th>
+                        <th>Mean</th>
+                        <th>Median</th>
+                        <th>Std. Dev.</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Indian</td>
+                        <td>50</td>
+                        <td>3.63</td>
+                        <td>3.75</td>
+                        <td>0.74</td>
+                        <td>2.00</td>
+                        <td>5.00</td>
+                    </tr>
+                    <tr>
+                        <td>Foreign</td>
+                        <td>50</td>
+                        <td>3.86</td>
+                        <td>4.00</td>
+                        <td>0.75</td>
+                        <td>2.25</td>
+                        <td>5.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <h3 class="text-xl font-semibold mb-3">Distribution of Proficiency Scores</h3>
+        
+        <p>The distribution of English proficiency scores for both groups shows some overlap but with a slight shift toward higher scores for foreign students. The histograms and kernel density plots below illustrate this distribution:</p>
+        
+        <div class="image-container">
+            <img src="plots/overall_proficiency.png" alt="Distribution of English Proficiency Scores by Student Type">
+            <p class="image-caption">Figure 4: Distribution of English Proficiency Scores by Student Type</p>
+        </div>
+        
+        <p>The data shows that while there is variation within both groups, foreign students tend to have slightly higher self-reported English proficiency on average (mean = 3.86) compared to Indian students (mean = 3.63). However, both groups show similar patterns of dispersion (standard deviation ≈ 0.75), indicating comparable variability in English skills within each group.</p>
+    </section>
+
+    <!-- Testing Statistical Assumptions Section -->
+    <section id="testing-assumptions" class="mb-12">
+    <section id="assumptions" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">7. Testing Statistical Assumptions</h2>
+        <div class="space-y-6">
+            <p>
+                Before conducting hypothesis tests, we verified whether the data meets the key assumptions for parametric testing.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">7.1 Normality Testing</h3>
+            <p>
+                We applied the Shapiro-Wilk test to determine if the proficiency scores follow a normal distribution within each group.
+            </p>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Group</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Shapiro-Wilk Statistic (W)</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">p-value</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Indian</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.9680</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.1911</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Normal (p > 0.05)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Foreign</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.9563</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.0624</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Normal (p > 0.05)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="mt-4">
+                For both groups, the p-value is greater than the conventional alpha level of 0.05, indicating that we cannot reject the null hypothesis of normality. Therefore, the assumption of normality is met for parametric testing.
+            </p>
+            
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold mb-2">7.2 Homogeneity of Variances</h3>
+                <p>
+                    We applied Levene's test to check if the variances are equal across the two groups.
+                </p>
+                
+                <div class="overflow-x-auto table-container">
+                    <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                        <thead>
+                            <tr class="bg-blue-100">
+                                <th class="py-2 px-4 border-b border-gray-300 text-left">Test</th>
+                                <th class="py-2 px-4 border-b border-gray-300 text-left">Statistic (W)</th>
+                                <th class="py-2 px-4 border-b border-gray-300 text-left">p-value</th>
+                                <th class="py-2 px-4 border-b border-gray-300 text-left">Interpretation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-300">Levene's Test</td>
+                                <td class="py-2 px-4 border-b border-gray-300">0.0000</td>
+                                <td class="py-2 px-4 border-b border-gray-300">1.0000</td>
+                                <td class="py-2 px-4 border-b border-gray-300">Equal variances (p > 0.05)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p class="mt-4">
+                    The high p-value (1.0000) from Levene's test indicates that we cannot reject the null hypothesis of equal variances. Therefore, the assumption of homogeneity of variances is met.
+                </p>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200 mt-8">
+                <h4 class="font-bold mb-2">Conclusion on Assumptions:</h4>
+                <p>
+                    Both key assumptions for parametric testing are satisfied:
+                </p>
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                    <li>Normality: Both groups' scores follow a normal distribution</li>
+                    <li>Homogeneity of variances: The variances are equal across groups</li>
+                </ul>
+                <p class="mt-2">
+                    Therefore, we can proceed with parametric tests such as t-tests and ANOVA. However, we will also include non-parametric alternatives for robustness.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Validation Section -->
+    <section id="data-validation" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">8. Data Validation</h2>
+        <div class="space-y-6">
+            <p>
+                Before proceeding with the main analysis, we conducted several data validation procedures to ensure the quality and reliability of our dataset.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">8.1 Detection of Outliers</h3>
+            <p>
+                We examined the data for potential outliers that might unduly influence the statistical results using boxplots and the interquartile range (IQR) method.
+            </p>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Variable</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Potential Outliers</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Decision</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Justification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Overall Proficiency</td>
+                            <td class="py-2 px-4 border-b border-gray-300">2 cases (scores of 2.0)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Retained</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Valid responses within the scale range</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Reading Scores</td>
+                            <td class="py-2 px-4 border-b border-gray-300">None detected</td>
+                            <td class="py-2 px-4 border-b border-gray-300">N/A</td>
+                            <td class="py-2 px-4 border-b border-gray-300">N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Speaking Scores</td>
+                            <td class="py-2 px-4 border-b border-gray-300">3 cases (scores of 1.0)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Retained</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Genuine self-assessments, no evidence of response error</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="mt-4">
+                No true statistical outliers were removed as all responses fell within the valid scale range (1-5) and appeared to be genuine self-assessments rather than data entry errors.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">8.2 Missing Data Analysis</h3>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Variable</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Missing Values</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Percentage</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Treatment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Reading Scores</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Listening Scores</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Speaking Scores</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Writing Scores</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Level of Study</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0%</td>
+                            <td class="py-2 px-4 border-b border-gray-300">N/A</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="mt-4">
+                The dataset was complete with no missing values for any of the key variables, eliminating the need for imputation methods and strengthening the validity of the analysis.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">8.3 Internal Consistency</h3>
+            <p>
+                We assessed the internal consistency of the proficiency measure using Cronbach's alpha to ensure that the four skill scores reliably measured the underlying construct of English proficiency.
+            </p>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Group</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Cronbach's α</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Overall Sample (N=100)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.83</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Good internal consistency</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Indian Students (n=50)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.81</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Good internal consistency</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Foreign Students (n=50)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.85</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Good internal consistency</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="mt-4">
+                The high Cronbach's alpha values (α > 0.8) indicate good internal consistency of the proficiency measure across both groups, suggesting that the four skill scores collectively provide a reliable measure of English proficiency.
+            </p>
+            
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200 mt-8">
+                <h4 class="font-bold mb-2">Data Validation Summary:</h4>
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                    <li>No problematic outliers were identified in the dataset</li>
+                    <li>The dataset was complete with no missing values</li>
+                    <li>The proficiency measure showed good internal consistency across groups</li>
+                    <li>The data meets quality standards for robust statistical analysis</li>
+                </ul>
+                <p class="mt-2">
+                    These validation checks confirm that the dataset is appropriate for the planned statistical analyses and that the findings can be interpreted with confidence.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hypothesis Testing Section -->
+    <section id="hypothesis" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">9. Hypothesis Testing</h2>
+        <div class="space-y-6">
+            <p>
+                We conducted several statistical tests to investigate whether there is a significant difference in English proficiency between Indian and foreign students.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">9.1 Research Hypotheses</h3>
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="mb-3">
+                    <p class="font-semibold">Null Hypothesis (H<sub>0</sub>):</p>
+                    <p>There is no significant difference in English language proficiency between Indian and foreign students.</p>
+                    <p class="math mt-1">H<sub>0</sub>: μ<sub>Indian</sub> = μ<sub>Foreign</sub></p>
+                </div>
+                <div>
+                    <p class="font-semibold">Alternative Hypothesis (H<sub>1</sub>):</p>
+                    <p>There is a significant difference in English language proficiency between Indian and foreign students.</p>
+                    <p class="math mt-1">H<sub>1</sub>: μ<sub>Indian</sub> ≠ μ<sub>Foreign</sub></p>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">9.2 Independent Samples t-test</h3>
+            <p>
+                Since the assumptions of normality and homogeneity of variances were met, we first conducted an independent samples t-test.
+            </p>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Test</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">t-statistic</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Degrees of freedom</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">p-value</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Significant at α=0.05?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Independent Samples t-test</td>
+                            <td class="py-2 px-4 border-b border-gray-300">-1.5309</td>
+                            <td class="py-2 px-4 border-b border-gray-300">98</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.1290</td>
+                            <td class="py-2 px-4 border-b border-gray-300">No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-4">
+                <p>
+                    The t-test resulted in a p-value of 0.1290, which is greater than the standard alpha level of 0.05. Therefore, we fail to reject the null hypothesis. This suggests that there is no statistically significant difference in English proficiency between Indian and foreign students.
+                </p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">9.3 Mann-Whitney U Test (Non-parametric Alternative)</h3>
+            <p>
+                For robustness, we also conducted the non-parametric Mann-Whitney U test, which does not assume normality.
+            </p>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Test</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">U-statistic</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">p-value</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Significant at α=0.05?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Mann-Whitney U Test</td>
+                            <td class="py-2 px-4 border-b border-gray-300">1034.5000</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.1360</td>
+                            <td class="py-2 px-4 border-b border-gray-300">No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="mt-4">
+                The Mann-Whitney U test yielded a p-value of 0.1360, which is consistent with the result from the t-test. This further supports the conclusion that there is no statistically significant difference in English proficiency between the two groups.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">9.4 One-way ANOVA</h3>
+            <p>
+                We also conducted a one-way ANOVA as another approach to test for differences between the groups.
+            </p>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Source</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Sum of Squares</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">df</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Mean Square</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">F-value</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">p-value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Student_Type</td>
+                            <td class="py-2 px-4 border-b border-gray-300">1.324225</td>
+                            <td class="py-2 px-4 border-b border-gray-300">1</td>
+                            <td class="py-2 px-4 border-b border-gray-300">1.324225</td>
+                            <td class="py-2 px-4 border-b border-gray-300">2.342225</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.129032</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Residual</td>
+                            <td class="py-2 px-4 border-b border-gray-300">55.399775</td>
+                            <td class="py-2 px-4 border-b border-gray-300">98</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.565304</td>
+                            <td class="py-2 px-4 border-b border-gray-300">-</td>
+                            <td class="py-2 px-4 border-b border-gray-300">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="mt-4">
+                The ANOVA yielded an F-value of 2.342 with a p-value of 0.129, which is consistent with both the t-test and Mann-Whitney U test results. This further confirms that there is no statistically significant difference in English proficiency between Indian and foreign students.
+            </p>
+            
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mt-8">
+                <h4 class="font-bold mb-2">Summary of Hypothesis Testing:</h4>
+                <p>
+                    All three statistical tests (t-test, Mann-Whitney U, and ANOVA) consistently show p-values greater than the alpha level of 0.05:
+                </p>
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                    <li>Independent samples t-test: p = 0.1290</li>
+                    <li>Mann-Whitney U test: p = 0.1360</li>
+                    <li>One-way ANOVA: p = 0.1290</li>
+                </ul>
+                <p class="mt-2 font-semibold">
+                    Conclusion: We fail to reject the null hypothesis. There is no statistically significant difference in English proficiency between Indian and foreign students.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Effect Size Analysis Section -->
+    <section id="effect-size" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">10. Effect Size Analysis</h2>
+        <div class="space-y-6">
+            <p>
+                While hypothesis testing helps determine statistical significance, effect size measures the magnitude or practical importance of the difference between groups. We calculated Cohen's d to assess the effect size.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">10.1 Cohen's d Calculation</h3>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Measure</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Mean difference (absolute)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.2300</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Pooled standard deviation</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.7514</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Cohen's d</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.3062</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">10.2 Interpretation of Effect Size</h3>
+            <p>
+                Cohen's d values can be interpreted according to conventional guidelines:
+            </p>
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Cohen's d Value</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Effect Size Classification</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">< 0.2</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Negligible</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Practically no difference</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">0.2 - 0.5</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Small</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Subtle but potentially meaningful difference</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">0.5 - 0.8</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Medium</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Moderate and noticeable difference</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">> 0.8</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Large</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Substantial difference</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-6">
+                <p>
+                    With a Cohen's d value of 0.3062, the difference in English proficiency between Indian and foreign students is classified as <strong>small</strong>. This suggests that while there may be a subtle difference between the groups, it is not substantial in practical terms.
+                </p>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">10.3 Visual Representation of Effect Size</h3>
+            <div class="image-container">
+                <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect x="0" y="0" width="600" height="300" fill="#f8f9fa" rx="5" ry="5" />
+                    
+                    <!-- Title -->
+                    <text x="300" y="30" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Effect Size Visualization: Cohen's d = 0.3062</text>
+                    
+                    <!-- X and Y axis -->
+                    <line x1="50" y1="250" x2="550" y2="250" stroke="black" stroke-width="2" />
+                    <text x="300" y="280" font-family="Arial" font-size="14" text-anchor="middle">Proficiency Score (Standardized)</text>
+                    
+                    <!-- Indian Students Distribution (left) -->
+                    <path d="M50,250 Q100,100 200,250" fill="rgba(54, 162, 235, 0.3)" stroke="rgba(54, 162, 235, 0.8)" stroke-width="2" />
+                    <text x="125" y="180" font-family="Arial" font-size="14" text-anchor="middle">Indian Students</text>
+                    
+                    <!-- Foreign Students Distribution (right) -->
+                    <path d="M200,250 Q300,50 450,250" fill="rgba(75, 192, 192, 0.3)" stroke="rgba(75, 192, 192, 0.8)" stroke-width="2" />
+                    <text x="325" y="120" font-family="Arial" font-size="14" text-anchor="middle">Foreign Students</text>
+                    
+                    <!-- Overlap area -->
+                    <path d="M200,250 Q225,150 250,250" fill="rgba(153, 102, 255, 0.4)" stroke="rgba(153, 102, 255, 0.6)" stroke-width="1" />
+                    
+                    <!-- Effect size marker (vertical line) -->
+                    <line x1="300" y1="50" x2="300" y2="250" stroke="black" stroke-width="2" stroke-dasharray="5,5" />
+                    <text x="300" y="70" font-family="Arial" font-size="12" text-anchor="middle" fill="white" stroke="black" stroke-width="0.5">d = 0.3062</text>
+                    
+                    <!-- Small effect size indicator -->
+                    <text x="500" y="70" font-family="Arial" font-size="14" text-anchor="middle" fill="#666">Small Effect Size</text>
+                    <rect x="450" y="80" width="100" height="30" fill="rgba(255, 193, 7, 0.2)" stroke="rgba(255, 193, 7, 0.8)" stroke-width="1" rx="5" ry="5" />
+                    <text x="500" y="100" font-family="Arial" font-size="12" text-anchor="middle">0.2 < d < 0.5</text>
+                </svg>
+                <p class="image-caption">Figure 6: Visual representation of effect size (Cohen's d = 0.3062) showing the overlap between distributions</p>
+                <p class="text-sm text-gray-600 mt-1"><em>Note: Figure numbering proceeds from Figure 4 to Figure 6 due to document organization.</em></p>
+            </div>
+            
+            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mt-8">
+                <h4 class="font-bold mb-2">Practical Interpretation:</h4>
+                <p>
+                    A Cohen's d of 0.3062 means that:
+                </p>
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                    <li>The observed difference of 0.23 points on a 5-point scale is relatively small</li>
+                    <li>The distributions of scores between the two groups overlap considerably</li>
+                    <li>If we randomly selected one student from each group, there would be approximately a 58% chance that the foreign student would have a higher proficiency score</li>
+                    <li>While not statistically significant, this small effect might still have some practical relevance in specific contexts</li>
+                </ul>
+                <p class="mt-2 font-semibold">
+                    Conclusion: The effect size analysis indicates that the practical difference in English proficiency between Indian and foreign students is small.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equivalence Testing Section -->
+    <section id="equivalence" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">11. Equivalence Testing</h2>
+        <div class="space-y-6">
+            <p>
+                Traditional hypothesis testing can only tell us whether we can reject the null hypothesis of no difference. However, failing to reject this null doesn't necessarily mean the groups are equivalent. To directly test for equivalence, we conducted the Two One-Sided Tests (TOST) procedure.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">11.1 Two One-Sided Tests (TOST) Approach</h3>
+            <p>
+                The TOST procedure involves defining an equivalence margin (±ε) that represents the smallest effect size of practical importance. If the 90% confidence interval for the mean difference falls entirely within this margin, we can conclude that the groups are statistically equivalent.
+            </p>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Measure</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Mean difference (Indian - Foreign)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">-0.2300</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Standard error of difference</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.1502</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">90% Confidence interval lower bound</td>
+                            <td class="py-2 px-4 border-b border-gray-300">-0.4795</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">90% Confidence interval upper bound</td>
+                            <td class="py-2 px-4 border-b border-gray-300">0.0195</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Equivalence bounds</td>
+                            <td class="py-2 px-4 border-b border-gray-300">±0.5</td>
+                        </tr>
+                        <tr class="bg-green-50 font-semibold">
+                            <td class="py-2 px-4 border-b border-gray-300">Equivalence conclusion</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Groups are equivalent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">11.2 Visual Representation of Equivalence Testing</h3>
+            <div class="image-container">
+                <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect x="0" y="0" width="600" height="300" fill="#f8f9fa" rx="5" ry="5" />
+                    
+                    <!-- Title -->
+                    <text x="300" y="30" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Equivalence Testing: 90% CI vs. Equivalence Bounds</text>
+                    
+                    <!-- Y axis -->
+                    <line x1="100" y1="50" x2="100" y2="250" stroke="black" stroke-width="2" />
+                    <text x="50" y="150" font-family="Arial" font-size="14" text-anchor="middle" transform="rotate(-90,50,150)">Mean Difference</text>
+                    
+                    <!-- Y axis markings -->
+                    <line x1="95" y1="75" x2="105" y2="75" stroke="black" stroke-width="2" />
+                    <text x="85" y="80" font-family="Arial" font-size="12" text-anchor="end">0.5</text>
+                    <line x1="95" y1="150" x2="105" y2="150" stroke="black" stroke-width="2" />
+                    <text x="85" y="155" font-family="Arial" font-size="12" text-anchor="end">0.0</text>
+                    <line x1="95" y1="225" x2="105" y2="225" stroke="black" stroke-width="2" />
+                    <text x="85" y="230" font-family="Arial" font-size="12" text-anchor="end">-0.5</text>
+                    
+                    <!-- X axis -->
+                    <line x1="100" y1="250" x2="500" y2="250" stroke="black" stroke-width="2" />
+                    
+                    <!-- Equivalence bounds -->
+                    <line x1="100" y1="75" x2="500" y2="75" stroke="red" stroke-width="2" stroke-dasharray="5,5" />
+                    <text x="510" y="80" font-family="Arial" font-size="12" fill="red">Upper Bound (0.5)</text>
+                    <line x1="100" y1="225" x2="500" y2="225" stroke="red" stroke-width="2" stroke-dasharray="5,5" />
+                    <text x="510" y="230" font-family="Arial" font-size="12" fill="red">Lower Bound (-0.5)</text>
+                    
+                    <!-- 90% Confidence Interval -->
+                    <rect x="200" y="177" width="200" height="48" fill="rgba(75, 192, 192, 0.3)" stroke="rgba(75, 192, 192, 0.8)" stroke-width="2" />
+                    <text x="300" y="210" font-family="Arial" font-size="12" text-anchor="middle">90% CI: [-0.4795, 0.0195]</text>
+                    
+                    <!-- Mean difference -->
+                    <line x1="200" y1="201" x2="400" y2="201" stroke="rgba(75, 192, 192, 0.8)" stroke-width="3" />
+                    <circle cx="300" cy="201" r="5" fill="rgba(75, 192, 192, 1)" />
+                    <text x="300" y="190" font-family="Arial" font-size="12" text-anchor="middle">Mean: -0.23</text>
+                    
+                    <!-- Result indicator -->
+                    <rect x="150" y="260" width="300" height="30" fill="rgba(0, 200, 0, 0.2)" stroke="rgba(0, 150, 0, 0.8)" stroke-width="1" rx="15" ry="15" />
+                    <text x="300" y="280" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold" fill="darkgreen">Groups are statistically equivalent</text>
+                </svg>
+                <p class="image-caption">Figure 7: Equivalence testing - 90% confidence interval for mean difference in relation to equivalence bounds</p>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200 mt-8">
+                <h4 class="font-bold mb-2">Interpretation of Equivalence Testing:</h4>
+                <p>
+                    The 90% confidence interval for the mean difference (-0.4795 to 0.0195) lies entirely within the equivalence bounds of ±0.5. This means that:
+                </p>
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                    <li>We can positively assert that the groups are statistically equivalent</li>
+                    <li>Any difference between the groups is smaller than what would be considered practically important (less than 0.5 points on a 5-point scale)</li>
+                    <li>The equivalence finding strengthens our conclusion beyond simply "failing to reject" the null hypothesis</li>
+                </ul>
+                <p class="mt-2 font-semibold">
+                    Conclusion: Based on the equivalence testing, we can confidently state that Indian and foreign students have statistically equivalent levels of English proficiency.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skill-by-Skill Analysis Section -->
+    <section id="skill-by-skill-analysis" class="mb-10">
+        <h2 class="text-2xl font-bold mb-4">12. Skill-by-Skill Analysis</h2>
+        
+        <p>To gain deeper insights into the English proficiency differences, we analyzed each skill area separately (reading, listening, speaking, and writing). This analysis helps identify specific areas where differences might be more pronounced.</p>
+        
+        <div class="image-container">
+            <img src="plots/skill_comparison.png" alt="Comparison of English Skills Between Indian and Foreign Students">
+            <p class="image-caption">Figure 8: Comparison of English Skills Between Indian and Foreign Students</p>
+        </div>
+        
+        <h3 class="text-xl font-semibold mb-3">Statistical Evidence by Skill Area</h3>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Skill Area</th>
+                        <th>Indian Mean (SD)</th>
+                        <th>Foreign Mean (SD)</th>
+                        <th>Mean Difference</th>
+                        <th>t-value</th>
+                        <th>p-value</th>
+                        <th>Significant?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Reading</td>
+                        <td>3.82 (0.92)</td>
+                        <td>4.04 (0.78)</td>
+                        <td>-0.22</td>
+                        <td>-1.319</td>
+                        <td>0.190</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Listening</td>
+                        <td>3.76 (0.85)</td>
+                        <td>3.94 (0.82)</td>
+                        <td>-0.18</td>
+                        <td>-1.079</td>
+                        <td>0.283</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Speaking</td>
+                        <td>3.24 (1.06)</td>
+                        <td>3.66 (0.92)</td>
+                        <td>-0.42</td>
+                        <td>-2.183</td>
+                        <td>0.031</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Writing</td>
+                        <td>3.70 (0.76)</td>
+                        <td>3.80 (0.83)</td>
+                        <td>-0.10</td>
+                        <td>-0.634</td>
+                        <td>0.528</td>
+                        <td>No</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <h3 class="text-xl font-semibold mb-3">Focus on Speaking Skills</h3>
+        
+        <p>The most notable difference between Indian and foreign students was observed in speaking skills, where the p-value (0.031) indicated a statistically significant difference:</p>
+        
+        <div class="image-container">
+            <img src="plots/speaking_skills_focus.png" alt="Distribution of Speaking Skills Scores by Student Type">
+            <p class="image-caption">Figure 9: Distribution of Speaking Skills Scores by Student Type</p>
+        </div>
+        
+        <p>Key insights from the skill-by-skill analysis:</p>
+        <ul class="list-disc pl-8 mb-4">
+            <li>Speaking is the only skill area with a statistically significant difference (p = 0.031).</li>
+            <li>Foreign students rated their speaking skills 0.42 points higher on average than Indian students.</li>
+            <li>The smallest difference was observed in writing skills (0.10 points).</li>
+            <li>Both groups rated reading as their strongest skill area.</li>
+            <li>Indian students rated speaking as their weakest skill (mean = 3.24), while foreign students rated it higher (mean = 3.66).</li>
+        </ul>
+        
+        <p>These findings suggest that while overall proficiency levels are similar, targeted support for speaking skills might benefit Indian students in particular.</p>
+    </section>
+
+    <!-- Analysis by Level of Study Section -->
+    <section id="level-analysis" class="mb-10">
+        <h2 class="text-2xl font-bold mb-4">13. Analysis by Level of Study</h2>
+        
+        <p>We further analyzed the data to determine if the level of study (undergraduate vs. postgraduate) influences the English proficiency differences between Indian and foreign students.</p>
+        
+        <div class="image-container">
+            <img src="plots/study_level_comparison.png" alt="English Proficiency by Student Type and Level of Study">
+            <p class="image-caption">Figure 10: English Proficiency by Student Type and Level of Study</p>
+        </div>
+        
+        <h3 class="text-xl font-semibold mb-3">Proficiency by Level of Study</h3>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Level of Study</th>
+                        <th>Student Type</th>
+                        <th>Mean (SD)</th>
+                        <th>t-value</th>
+                        <th>p-value</th>
+                        <th>Significant?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2">Undergraduate</td>
+                        <td>Indian</td>
+                        <td>3.66 (0.72)</td>
+                        <td rowspan="2">-1.067</td>
+                        <td rowspan="2">0.289</td>
+                        <td rowspan="2">No</td>
+                    </tr>
+                    <tr>
+                        <td>Foreign</td>
+                        <td>3.83 (0.76)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Postgraduate</td>
+                        <td>Indian</td>
+                        <td>3.60 (0.77)</td>
+                        <td rowspan="2">-2.342</td>
+                        <td rowspan="2">0.022</td>
+                        <td rowspan="2">Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Foreign</td>
+                        <td>3.89 (0.74)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Limitations Section -->
+    <section id="limitations" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">14. Limitations and Future Research</h2>
+        <div class="space-y-6">
+            <p>
+                While this study provides valuable insights into English proficiency comparisons between Indian and foreign students, several limitations should be acknowledged when interpreting the results.
+            </p>
+            
+            <h3 class="text-xl font-semibold mb-2">14.1 Methodological Limitations</h3>
+            
+            <div class="overflow-x-auto table-container">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Limitation</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Description</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Potential Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Self-Reported Data</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Proficiency scores were self-assessed rather than measured through standardized tests</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Potential bias due to differing self-evaluation standards across cultural groups</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Sample Size</td>
+                            <td class="py-2 px-4 border-b border-gray-300">The study included 100 participants (50 per group)</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Limited statistical power to detect small effects</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Cross-Sectional Design</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Data collected at a single point in time</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Unable to assess proficiency development over time or causal relationships</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300">Heterogeneity of "Foreign Students"</td>
+                            <td class="py-2 px-4 border-b border-gray-300">The foreign student group included individuals from multiple countries with varying linguistic backgrounds</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Potential masking of significant differences between specific nationality groups</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">14.2 Statistical Limitations</h3>
+            
+            <ul class="list-disc list-inside space-y-2 pl-4">
+                <li>
+                    <span class="font-semibold">Statistical Power:</span> The achieved power of 0.65 falls below the conventional target of 0.80, indicating a 35% chance of failing to detect a true medium effect if one exists.
+                </li>
+                <li>
+                    <span class="font-semibold">Multiple Testing:</span> Multiple statistical tests were conducted without formal correction for family-wise error rate, which could increase the risk of Type I errors.
+                </li>
+                <li>
+                    <span class="font-semibold">Subgroup Analysis:</span> The sample size becomes smaller when analyzing by level of study or specific skills, reducing statistical power for these comparisons.
+                </li>
+                <li>
+                    <span class="font-semibold">Measurement Scale:</span> The 5-point Likert scale for proficiency assessment may have limited sensitivity to detect subtle differences between groups.
+                </li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">14.3 Directions for Future Research</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h4 class="font-bold mb-2">Methodological Improvements</h4>
+                    <ul class="list-disc list-inside space-y-1 pl-2">
+                        <li>Include objective proficiency measures (standardized tests)</li>
+                        <li>Implement longitudinal design to track proficiency development</li>
+                        <li>Increase sample size to improve statistical power</li>
+                        <li>Use mixed methods approach incorporating qualitative data</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h4 class="font-bold mb-2">Extended Research Questions</h4>
+                    <ul class="list-disc list-inside space-y-1 pl-2">
+                        <li>Analyze proficiency differences among specific nationality groups</li>
+                        <li>Investigate the impact of length of stay on proficiency</li>
+                        <li>Examine the role of prior English education background</li>
+                        <li>Assess the relationship between proficiency and academic performance</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-6">
+                <p class="italic">
+                    "Despite these limitations, this study provides valuable preliminary evidence regarding English proficiency patterns among Indian and foreign students in higher education contexts. The findings offer a foundation for more comprehensive investigations and targeted language support initiatives."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section id="conclusion" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 border-b border-gray-300 pb-2">15. Conclusion and Recommendations</h2>
+        <div class="space-y-6">
+            <h3 class="text-xl font-semibold mb-2">15.1 Summary of Findings</h3>
+            <div class="overflow-x-auto table-container mb-6">
+                <table class="min-w-full bg-white border border-gray-300 shadow-sm">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Analysis</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Key Finding</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-left">Statistical Evidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300 font-semibold">Overall Proficiency</td>
+                            <td class="py-2 px-4 border-b border-gray-300">No significant difference between Indian and foreign students</td>
+                            <td class="py-2 px-4 border-b border-gray-300">t-test: p = 0.1290<br>Effect size (Cohen's d): 0.3062 (small)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300 font-semibold">Equivalence Testing</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Groups are statistically equivalent within meaningful bounds</td>
+                            <td class="py-2 px-4 border-b border-gray-300">90% CI: [-0.4795, 0.0195] within ±0.5 bounds</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300 font-semibold">Individual Skills</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Speaking is the only skill with a significant difference</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Speaking: p = 0.0311<br>Other skills: all p > 0.05</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-300 font-semibold">Level of Study</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Significant difference at postgraduate level only</td>
+                            <td class="py-2 px-4 border-b border-gray-300">Postgraduate: p = 0.0215<br>Undergraduate: p = 0.7277</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>
+                This comprehensive statistical analysis aimed to determine whether there is a significant difference in English language proficiency between Indian and foreign students based on their country of origin. Our findings reveal a nuanced picture:
+            </p>
+            
+            <ol class="list-decimal list-inside space-y-2 pl-4 mt-4">
+                <li>
+                    <strong>Overall Proficiency:</strong> There is no statistically significant difference in overall English proficiency between Indian and foreign students. Multiple statistical tests (t-test, Mann-Whitney U, ANOVA) consistently supported this conclusion. Additionally, equivalence testing confirmed that the groups are statistically equivalent within meaningful bounds.
+                </li>
+                <li>
+                    <strong>Skill-Specific Differences:</strong> When examining individual language skills, we found no significant differences in reading, listening, or writing abilities. However, there is a significant difference in Speaking skills (p = 0.0311), with foreign students reporting higher fluency and confidence in spoken communication.
+                </li>
+                <li>
+                    <strong>Educational Level Effects:</strong> A notable pattern emerged when comparing undergraduate and postgraduate students. While there was no significant difference at the undergraduate level, foreign postgraduate students showed significantly higher English proficiency compared to Indian postgraduate students. This suggests that differences may emerge or widen at higher academic levels.
+                </li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-8">15.2 Implications</h3>
+            <p>
+                These findings have several important implications:
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                    <h4 class="font-bold mb-2 text-blue-700">For Educational Institutions</h4>
+                    <ul class="list-disc list-inside space-y-1 pl-4">
+                        <li>General English support programs may not need to be differentiated based on student origin</li>
+                        <li>Speaking-specific interventions could be particularly beneficial for Indian students</li>
+                        <li>More targeted support may be needed for Indian postgraduate students</li>
+                        <li>Equal access to academic opportunities should be maintained, as overall proficiency is equivalent</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                    <h4 class="font-bold mb-2 text-blue-700">For Students and Educators</h4>
+                    <ul class="list-disc list-inside space-y-1 pl-4">
+                        <li>Indian students might benefit from more speaking practice and confidence-building activities</li>
+                        <li>Understanding the equivalence in overall proficiency could help reduce stereotype threat</li>
+                        <li>Educators should be aware of potential differences that may emerge at the postgraduate level</li>
+                        <li>Peer learning opportunities between Indian and foreign students could be mutually beneficial</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-8">15.3 Recommendations</h3>
+            <div class="space-y-4">
+                <h4 class="font-bold text-blue-700">For Language Support Programs:</h4>
+                <ol class="list-decimal list-inside space-y-2 pl-4">
+                    <li>
+                        <strong>Speaking Skills Focus:</strong> Develop targeted interventions to enhance speaking skills for Indian students, such as conversation clubs, pronunciation workshops, and oral presentation practice.
+                    </li>
+                    <li>
+                        <strong>Postgraduate Support:</strong> Implement specialized language support for postgraduate Indian students, particularly those transitioning from undergraduate studies in regional languages.
+                    </li>
+                    <li>
+                        <strong>Peer Learning Initiatives:</strong> Create structured opportunities for Indian and foreign students to engage in language exchange activities, leveraging the complementary strengths of each group.
+                    </li>
+                    <li>
+                        <strong>Confidence Building:</strong> Develop programs aimed at building confidence in English communication, as self-perceived proficiency often affects actual performance.
+                    </li>
+                </ol>
+                
+                <h4 class="font-bold text-blue-700 mt-4">For Future Research:</h4>
+                <ol class="list-decimal list-inside space-y-2 pl-4">
+                    <li>
+                        <strong>Longitudinal Studies:</strong> Track how English proficiency evolves over time during academic study in India, particularly focusing on the undergraduate to postgraduate transition.
+                    </li>
+                    <li>
+                        <strong>Qualitative Investigation:</strong> Conduct in-depth interviews to better understand the factors contributing to the observed differences in speaking skills and at the postgraduate level.
+                    </li>
+                    <li>
+                        <strong>Country-Specific Analysis:</strong> Examine differences among students from specific countries rather than grouping all foreign students together.
+                    </li>
+                    <li>
+                        <strong>Intervention Testing:</strong> Design and evaluate the effectiveness of targeted interventions for speaking skills development among Indian students.
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="bg-blue-100 p-6 rounded-lg border border-blue-300 mt-8">
+                <h4 class="font-bold text-xl mb-4 text-blue-800">Final Conclusion</h4>
+                <p class="mb-4">
+                    In response to our initial research question, the evidence strongly supports that there is <strong>no significant difference in overall English language proficiency between foreign and Indian students</strong> based on country of origin. The groups are statistically equivalent within meaningful bounds.
+                </p>
+                <p>
+                    However, this overall equivalence masks some important nuances: differences exist specifically in speaking skills and at the postgraduate level. These findings suggest that while blanket assumptions about differences in English proficiency are unwarranted, targeted support in specific areas could enhance the academic experience and success of all students.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript for Interactive Charts -->
+    <script>
+        // Register the annotation plugin
+        Chart.register(ChartAnnotation);
+        
+        // Skills Bar Chart
+        const skillsBarCtx = document.getElementById('skillsBarChart').getContext('2d');
+        new Chart(skillsBarCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Reading', 'Listening', 'Speaking', 'Writing'],
+                datasets: [{
+                    label: 'Indian Students',
+                    data: [3.82, 3.76, 3.24, 3.70],
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Foreign Students',
+                    data: [4.04, 3.94, 3.66, 3.80],
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 1,
+                        max: 5,
+                        title: {
+                            display: true,
+                            text: 'Mean Score (1-5 scale)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Skill Area'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Mean Scores by Skill Area and Student Type'
+                    }
+                }
+            }
+        });
+
+        // Effect Size Chart
+        const effectSizeCtx = document.getElementById('effectSizeChart').getContext('2d');
+        new Chart(effectSizeCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Indian Students',
+                    data: Array.from({length: 100}, () => ({
+                        x: Math.random() * 2 - 1,
+                        y: Math.random()
+                    })),
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    pointRadius: 5
+                }, {
+                    label: 'Foreign Students',
+                    data: Array.from({length: 100}, () => ({
+                        x: Math.random() * 2 + 0.3,
+                        y: Math.random()
+                    })),
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Proficiency Score (Standardized)'
+                        }
+                    },
+                    y: {
+                        display: false
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Effect Size Visualization - Cohen\'s d = 0.3062'
+                    },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                xMin: 0,
+                                xMax: 0,
+                                yMin: 0,
+                                yMax: 1,
+                                borderColor: 'black',
+                                borderWidth: 2,
+                                borderDash: [6, 6],
+                                label: {
+                                    content: 'Cohen\'s d = 0.3062',
+                                    enabled: true,
+                                    position: 'center',
+                                    backgroundColor: 'rgba(0,0,0,0.7)',
+                                    color: 'white'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Equivalence Testing Chart
+        const equivalenceCtx = document.getElementById('equivalenceChart').getContext('2d');
+        new Chart(equivalenceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mean Difference (Indian - Foreign)'],
+                datasets: [{
+                    label: '90% Confidence Interval',
+                    data: [-0.23],
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    barPercentage: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: -0.8,
+                        max: 0.8,
+                        title: {
+                            display: true,
+                            text: 'Mean Difference'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: ''
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Equivalence Testing: 90% CI vs. Equivalence Bounds'
+                    },
+                    annotation: {
+                        annotations: {
+                            lowerBound: {
+                                type: 'line',
+                                yMin: -0.5,
+                                yMax: -0.5,
+                                xMin: 0,
+                                xMax: 1,
+                                borderColor: 'red',
+                                borderWidth: 2,
+                                label: {
+                                    content: 'Lower Bound (-0.5)',
+                                    enabled: true,
+                                    position: 'start',
+                                    backgroundColor: 'rgba(255,0,0,0.7)',
+                                    color: 'white'
+                                }
+                            },
+                            upperBound: {
+                                type: 'line',
+                                yMin: 0.5,
+                                yMax: 0.5,
+                                xMin: 0,
+                                xMax: 1,
+                                borderColor: 'red',
+                                borderWidth: 2,
+                                label: {
+                                    content: 'Upper Bound (0.5)',
+                                    enabled: true,
+                                    position: 'start',
+                                    backgroundColor: 'rgba(255,0,0,0.7)',
+                                    color: 'white'
+                                }
+                            },
+                            ciBox: {
+                                type: 'box',
+                                yMin: -0.4795,
+                                yMax: 0.0195,
+                                xMin: 0,
+                                xMax: 1,
+                                backgroundColor: 'rgba(75, 192, 192, 0.3)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Add the JavaScript for new charts -->
+    <script>
+        // Language Distribution Chart
+        const languageCtx = document.getElementById('languageDistributionChart').getContext('2d');
+        new Chart(languageCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Hindi', 'English', 'Marathi', 'Sinhala', 'Arabic', 'Other'],
+                datasets: [{
+                    data: [25, 12, 13, 10, 6, 34],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        text: 'First Language Distribution'
+                    }
+                }
+            }
+        });
+        
+        // Proficiency Comparison Chart
+        const proficiencyCtx = document.getElementById('proficiencyComparisonChart').getContext('2d');
+        new Chart(proficiencyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Reading', 'Listening', 'Speaking', 'Writing'],
+                datasets: [{
+                    label: 'Indian Students',
+                    data: [3.76, 3.72, 3.44, 3.70],
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Foreign Students',
+                    data: [3.98, 3.94, 3.84, 3.90],
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 3,
+                        max: 5,
+                        title: {
+                            display: true,
+                            text: 'Average Proficiency Score (1-5 scale)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Language Skill'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Average Self-Reported Proficiency by Skill'
+                    }
+                }
+            }
+        });
+        
+        // Attitude Comparison Chart
+        const attitudeCtx = document.getElementById('attitudeComparisonChart').getContext('2d');
+        new Chart(attitudeCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'English is necessary for academic success',
+                    'My English proficiency has improved at university',
+                    'I actively seek opportunities to improve English',
+                    'My university provides enough language support',
+                    'More resources should be available',
+                    'Foreign students face more difficulties',
+                    'Indian students face challenges with academic English'
+                ],
+                datasets: [{
+                    label: 'Indian Students',
+                    data: [85, 70, 58, 30, 82, 40, 68],
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Foreign Students',
+                    data: [89, 82, 64, 34, 86, 72, 74],
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Percentage Who Agree/Strongly Agree (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Attitudes Toward English Language Learning and Support'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

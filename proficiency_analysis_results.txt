@@ -1,0 +1,122 @@
+ENGLISH PROFICIENCY ANALYSIS RESULTS
+===================================
+
+Data Loading and Preparation:
+Dataset shape: (100, 30)
+
+Student count by type:
+Indian students: 50
+Foreign students: 50
+Total: 100
+
+Descriptive Statistics for English Proficiency by Student Type:
+              count  mean       std   min   25%   50%     75%  max
+Student_Type                                                      
+Foreign        50.0  3.86  0.756199  2.25  3.25  4.00  4.4375  5.0
+Indian         50.0  3.63  0.746147  2.25  3.00  3.75  4.1875  5.0
+
+
+STATISTICAL TESTING
+===================
+
+1. Testing Normality Assumption
+Shapiro-Wilk test for Indian students: W=0.9680, p-value=0.1911
+Shapiro-Wilk test for Foreign students: W=0.9563, p-value=0.0624
+Conclusion: Both distributions appear to be normally distributed (p > 0.05)
+
+2. Testing Homogeneity of Variances
+Levene's test: W=0.0000, p-value=1.0000
+Conclusion: Variances appear to be equal (p > 0.05)
+
+3. Hypothesis Testing
+Independent samples t-test: t=-1.5309, p-value=0.1290
+Mann-Whitney U test: U=1034.5000, p-value=0.1360
+
+4. One-way ANOVA
+               sum_sq    df         F    PR(>F)
+Student_Type   1.3225   1.0  2.343671  0.129015
+Residual      55.3000  98.0       NaN       NaN
+
+5. Effect Size Analysis
+Mean proficiency score (Indian): 3.6300
+Mean proficiency score (Foreign): 3.8600
+Mean difference: 0.2300
+Effect size (Cohen's d): 0.3062
+Effect size classification: small
+
+6. Equivalence Testing (TOST)
+90% Confidence Interval for mean difference: [-0.4795, 0.0195]
+Equivalence bounds: [-0.5, 0.5]
+Conclusion: The groups are statistically equivalent (scores differ by less than the equivalence bound)
+
+
+SKILL-BY-SKILL ANALYSIS
+======================
+
+Reading Comprehension:
+  Mean (Indian): 3.82, Mean (Foreign): 4.04
+  Mean difference: 0.22
+  t-test: t=-1.3274, p-value=0.1875
+  Effect size (Cohen's d): 0.2655
+  Result: No significant difference
+
+Listening Skills:
+  Mean (Indian): 3.76, Mean (Foreign): 3.94
+  Mean difference: 0.18
+  t-test: t=-0.9395, p-value=0.3498
+  Effect size (Cohen's d): 0.1879
+  Result: No significant difference
+
+Speaking Skills:
+  Mean (Indian): 3.24, Mean (Foreign): 3.66
+  Mean difference: 0.42
+  t-test: t=-2.1872, p-value=0.0311
+  Effect size (Cohen's d): 0.4374
+  Result: Significant difference detected
+
+Writing Skills:
+  Mean (Indian): 3.70, Mean (Foreign): 3.80
+  Mean difference: 0.10
+  t-test: t=-0.6163, p-value=0.5391
+  Effect size (Cohen's d): 0.1233
+  Result: No significant difference
+
+
+ANALYSIS BY LEVEL OF STUDY
+=======================
+
+Postgraduate:
+  Indian students: n=37, mean=3.64
+  Foreign students: n=22, mean=4.07
+  Mean difference: 0.43
+  t-test: t=-2.3756, p-value=0.0215
+  Result: Significant difference detected
+
+Undergraduate:
+  Indian students: n=13, mean=3.60
+  Foreign students: n=28, mean=3.70
+  Mean difference: 0.10
+  t-test: t=-0.3526, p-value=0.7277
+  Result: No significant difference
+
+
+SUMMARY AND CONCLUSION
+====================
+Based on the t-test (p = 0.1290), there is NO statistically significant difference in English proficiency between Indian and foreign students.
+The effect size is small (Cohen's d = 0.3062), indicating that the practical significance of any difference is small.
+Equivalence testing suggests that the groups are equivalent. (90% CI for mean difference: [-0.4795, 0.0195], equivalence bounds: [-0.5, 0.5])
+
+Interpretation:
+The data strongly supports the claim that there is no significant difference in English proficiency between Indian and foreign students based on country of origin.
+
+Skill-specific insights:
+- Speaking is the only skill area showing a statistically significant difference between the groups.
+  Foreign students report higher fluency and confidence in spoken communication.
+- At the postgraduate level, there is a significant difference in proficiency between Indian and foreign students.
+  This difference is not observed at the undergraduate level.
+
+Recommendations for future research:
+1. Focus on speaking skills development, as this is the area with the most apparent differences
+2. Investigate the reasons for postgraduate-level differences in proficiency
+3. Consider controlling for years of English study and educational background in future analyses
+4. Examine differences by specific country of origin rather than just 'Indian' vs. 'Foreign'
